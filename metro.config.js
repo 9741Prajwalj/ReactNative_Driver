@@ -1,4 +1,4 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
 /**
  * Metro configuration
@@ -6,6 +6,13 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
  *
  * @type {import('metro-config').MetroConfig}
  */
-const config = {};
+module.exports = async () => {
+  const defaultConfig = await getDefaultConfig(__dirname);
+  const customConfig = {
+    transformer: {
+      babelTransformerPath: require.resolve('react-native-tailwind-transformer'),
+    },
+  };
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+  return mergeConfig(defaultConfig, customConfig);
+};
